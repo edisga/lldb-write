@@ -4,8 +4,8 @@ from __future__ import print_function
 import lldb
 import argparse
 import os
-#import re
 
+import lldb
 
 def parse_args(raw_args):
     """Parse the arguments given to write"""
@@ -30,44 +30,14 @@ def parse_args(raw_args):
 
     return args
 
-#def strip_esc_seq(s):
-#    """Strip ANSI escape sequences from string."""
-#    esc_seq_re = re.compile(r'\x1b[^m]*m')
-#    return esc_seq_re.sub('', s)
+def __lldb_init_module (debugger, dict):
+  debugger.HandleCommand('command script add -f write.write_to_file write')
 
-
-
-def write_to_file(filename, command, output):
-    """Write the output to the given file, headed by the command"""
-    mode = 'a' if os.path.exists(filename) else 'w'
-    f = open(filename, mode)
-    f.write("(lldb) " + command + '\n\n')
-    f.write(str(output))
-    #f.write(strip_esc_seq(output))
-    f.close();
-
-
-def handle_call(debugger, raw_args, result, internal_dict):
-    """Receives and handles the call to write from lldb"""
-    args = parse_args(raw_args)
-
-    # Run the command and store the result
-    res = lldb.SBCommandReturnObject()
-    interpreter = lldb.debugger.GetCommandInterpreter()
-    interpreter.HandleCommand(args.command, res)
-
-    # Get the output even
-    output = res.GetOutput() or res.GetError()
-    print(output, end='')
-    write_to_file(args.filename, args.command, output)
-
-
-def __lldb_init_module(debugger, internal_dict):
-    """Initialise the write command within lldb"""
-    # Tell lldb to import this script and alias it as 'write'.
-    # > Note: 'write' (from 'write.handle_call') is taken from the
-    #   name of this file
-    debugger.HandleCommand('command script add -f write.handle_call write')
-
-    print('The "write" command has been loaded and is ready for use.')
+def write_to_file(debugger, command, raw_args, result, dict):
+  args = parse_args(raw_args)
+  f=open(filename, 'w')
+  debugger.SetOutputFileHandle(f,True);
+  debugger.HandleCommand(command)
+  f.close();
+  debugger.SetOutputFileHandle(sys.stdout, True)
 
