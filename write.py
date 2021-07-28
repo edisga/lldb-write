@@ -4,7 +4,7 @@ from __future__ import print_function
 import lldb
 import argparse
 import os
-import re
+#import re
 
 
 def parse_args(raw_args):
@@ -30,10 +30,10 @@ def parse_args(raw_args):
 
     return args
 
-def strip_esc_seq(s):
-    """Strip ANSI escape sequences from string."""
-    esc_seq_re = re.compile(r'\x1b[^m]*m')
-    return esc_seq_re.sub('', s)
+#def strip_esc_seq(s):
+#    """Strip ANSI escape sequences from string."""
+#    esc_seq_re = re.compile(r'\x1b[^m]*m')
+#    return esc_seq_re.sub('', s)
 
 
 
@@ -42,7 +42,8 @@ def write_to_file(filename, command, output):
     mode = 'a' if os.path.exists(filename) else 'w'
     f = open(filename, mode)
     f.write("(lldb) " + command + '\n\n')
-    f.write(strip_esc_seq(output))
+    f.write(output)
+    #f.write(strip_esc_seq(output))
     f.flush();
     f.close();
 
