@@ -2,6 +2,7 @@ from __future__ import print_function
 import lldb
 import argparse
 
+
 def parse_args(raw_args):
     """Parse the arguments given to write"""
     # Need to provide 'prog' (name of program) here otherwise
@@ -29,9 +30,9 @@ def parse_args(raw_args):
 def write_to_file(filename, command, output):
     """Write the output to the given file, headed by the command"""
     f = open('./' + filename, 'w')
+
     f.write("(lldb) " + command + '\n\n')
-    f.write(str(output))
-    f.close()
+    f.write(output)
 
 
 def handle_call(debugger, raw_args, result, internal_dict):
@@ -57,5 +58,4 @@ def __lldb_init_module(debugger, internal_dict):
     debugger.HandleCommand('command script add -f write.handle_call write')
 
     print('The "write" command has been loaded and is ready for use.')
-
 
