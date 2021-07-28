@@ -6,7 +6,7 @@ def __lldb_init_module (debugger, dict):
 def write_to_file(debugger, filename, command, result, dict):
   f=open(filename,'w')
   debugger.SetOutputFileHandle(f,True)
-  debugger.HandleCommand(command,result)  
-  f.close()
+  debugger.HandleCommand(command)  
   debugger.SetOutputFileHandle(sys.__stdout__, True)
+  f.close()
 
