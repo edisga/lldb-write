@@ -31,8 +31,8 @@ def parse_args(raw_args):
 
 def write_to_file(filename, command, output):
     """Write the output to the given file, headed by the command"""
-    f = open('./' + filename, 'w')
-
+    mode = 'a' if os.path.exists(filename) else 'w'
+    f = open(filename, mode)
     f.write("(lldb) " + command + '\n\n')
     f.write(output)
 
