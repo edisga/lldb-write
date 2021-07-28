@@ -44,7 +44,6 @@ def write_to_file(filename, command, output):
     f.write("(lldb) " + command + '\n\n')
     f.write(str(output))
     #f.write(strip_esc_seq(output))
-    f.flush();
     f.close();
 
 
