@@ -1,3 +1,5 @@
+# Code imported from https://github.com/4iar/lldb-write
+
 from __future__ import print_function
 import lldb
 import argparse
